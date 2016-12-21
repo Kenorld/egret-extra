@@ -42,8 +42,8 @@ func (j *Job) Run() {
 	// Don't let the whole process die.
 	defer func() {
 		if err := recover(); err != nil {
-			if revelError := eject.NewErrorFromPanic(err); revelError != nil {
-				eject.ERROR.Print(err, "\n", revelError.Stack)
+			if ejectError := eject.NewErrorFromPanic(err); ejectError != nil {
+				eject.ERROR.Print(err, "\n", ejectError.Stack)
 			} else {
 				eject.ERROR.Print(err, "\n", string(debug.Stack()))
 			}

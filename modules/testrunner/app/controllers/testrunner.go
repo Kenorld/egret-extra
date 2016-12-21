@@ -9,17 +9,17 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/revel/revel"
-	"github.com/revel/revel/testing"
+	"github.com/eject/eject"
+	"github.com/eject/eject/testing"
 )
 
 // TestRunner is a controller which is used for running application tests in browser.
 type TestRunner struct {
-	*revel.Controller
+	*eject.Controller
 }
 
 // TestSuiteDesc is used for storing information about a single test suite.
-// This structure is required by revel test cmd.
+// This structure is required by eject test cmd.
 type TestSuiteDesc struct {
 	Name  string
 	Tests []TestDesc
@@ -30,13 +30,13 @@ type TestSuiteDesc struct {
 }
 
 // TestDesc is used for describing a single test of some test suite.
-// This structure is required by revel test cmd.
+// This structure is required by eject test cmd.
 type TestDesc struct {
 	Name string
 }
 
 // TestSuiteResult stores the results the whole test suite.
-// This structure is required by revel test cmd.
+// This structure is required by eject test cmd.
 type TestSuiteResult struct {
 	Name    string
 	Passed  bool
@@ -44,7 +44,7 @@ type TestSuiteResult struct {
 }
 
 // TestResult represents the results of running a single test of some test suite.
-// This structure is required by revel test cmd.
+// This structure is required by eject test cmd.
 type TestResult struct {
 	Name         string
 	Passed       bool
@@ -67,13 +67,13 @@ var (
 */
 
 // Index is an action which renders the full list of available test suites and their tests.
-func (c TestRunner) Index() revel.Result {
+func (c TestRunner) Index() eject.Result {
 	c.RenderArgs["suiteFound"] = len(testSuites) > 0
 	return c.Render(testSuites)
 }
 
 // Suite method allows user to navigate to individual Test Suite and their tests
-func (c TestRunner) Suite(suite string) revel.Result {
+func (c TestRunner) Suite(suite string) eject.Result {
 	var foundTestSuites []TestSuiteDesc
 	for _, testSuite := range testSuites {
 		if strings.EqualFold(testSuite.Name, suite) {
@@ -89,7 +89,7 @@ func (c TestRunner) Suite(suite string) revel.Result {
 }
 
 // Run runs a single test, given by the argument.
-func (c TestRunner) Run(suite, test string) revel.Result {
+func (c TestRunner) Run(suite, test string) eject.Result {
 	// Check whether requested test exists.
 	suiteIndex, ok := registeredTests[suite+"."+test]
 	if !ok {
@@ -106,7 +106,7 @@ func (c TestRunner) Run(suite, test string) revel.Result {
 		defer func() {
 			if err := recover(); err != nil {
 				// If panic error is empty, exit.
-				panicErr := revel.NewErrorFromPanic(err)
+				panicErr := eject.NewErrorFromPanic(err)
 				if panicErr == nil {
 					return
 				}
@@ -117,7 +117,7 @@ func (c TestRunner) Run(suite, test string) revel.Result {
 
 				// Render the error and save to the result structure.
 				var buffer bytes.Buffer
-				tmpl, _ := revel.MainTemplateLoader.Template("TestRunner/FailureDetail.html")
+				tmpl, _ := eject.MainTemplateLoader.Template("TestRunner/FailureDetail.html")
 				tmpl.Render(&buffer, map[string]interface{}{
 					"error":    panicErr,
 					"response": res,
@@ -153,8 +153,8 @@ func (c TestRunner) Run(suite, test string) revel.Result {
 }
 
 // List returns a JSON list of test suites and tests.
-// It is used by revel test command line tool.
-func (c TestRunner) List() revel.Result {
+// It is used by eject test command line tool.
+func (c TestRunner) List() eject.Result {
 	return c.RenderJson(testSuites)
 }
 
@@ -208,7 +208,7 @@ func describeSuite(testSuite interface{}) TestSuiteDesc {
 }
 
 // errorSummary gets an error and returns its summary in human readable format.
-func errorSummary(err *revel.Error) (message string) {
+func errorSummary(err *eject.Error) (message string) {
 	expected_prefix := "(expected)"
 	actual_prefix := "(actual)"
 	errDesc := err.Description
@@ -247,7 +247,7 @@ func errorSummary(err *revel.Error) (message string) {
 	return
 }
 
-// formatResponse gets *revel.TestSuite as input parameter and
+// formatResponse gets *eject.TestSuite as input parameter and
 // transform response related info into a readable format.
 func formatResponse(t testing.TestSuite) map[string]string {
 	if t.Response == nil {
@@ -310,10 +310,10 @@ func (a sortBySuiteName) Less(i, j int) bool {
 
 func init() {
 	// Every time app is restarted convert the list of available test suites
-	// provided by the revel testing package into a format which will be used by
-	// the testrunner module and revel test cmd.
-	revel.OnAppStart(func() {
-		// Extracting info about available test suites from revel/testing package.
+	// provided by the eject testing package into a format which will be used by
+	// the testrunner module and eject test cmd.
+	eject.OnAppStart(func() {
+		// Extracting info about available test suites from eject/testing package.
 		registeredTests = map[string]int{}
 		sort.Sort(sortBySuiteName(testing.TestSuites))
 		for _, testSuite := range testing.TestSuites {

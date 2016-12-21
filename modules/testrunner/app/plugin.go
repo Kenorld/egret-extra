@@ -2,11 +2,11 @@ package app
 
 import (
 	"fmt"
-	"github.com/revel/revel"
+	"github.com/eject/eject"
 )
 
 func init() {
-	revel.OnAppStart(func() {
+	eject.OnAppStart(func() {
 		fmt.Println("Go to /@tests to run the tests.")
 	})
 }
