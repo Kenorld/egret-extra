@@ -6,7 +6,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/eject/cron"
+	"bitbucket.org/kenorld/eject-corn"
 	"bitbucket.org/kenorld/eject-core"
 )
 

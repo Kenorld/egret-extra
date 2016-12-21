@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/eject/modules/auth"
-	"github.com/eject/modules/auth/driver/secret"
+	"bitbucket.org/kenorld/eject-extra/modules/auth"
+	"bitbucket.org/kenorld/eject-extra/modules/auth/driver/secret"
 )
 
 type User struct {

@@ -101,7 +101,7 @@ i18n.default_language = en
 # Module to serve static content such as CSS, JavaScript and Media files
 # Allows Routes like this:
 #  `Static.ServeModule("modulename","public")`
-module.static=github.com/eject/modules/static
+module.static=bitbucket.org/kenorld/eject-extra/modules/static
 
 
 
@@ -136,7 +136,7 @@ watch.mode = "normal"
 # Module to run code tests in the browser
 # See:
 #   http://eject.github.io/manual/testing.html
-module.testrunner = github.com/eject/modules/testrunner
+module.testrunner = bitbucket.org/kenorld/eject-extra/modules/testrunner
 
 
 # Where to log the various Eject logs

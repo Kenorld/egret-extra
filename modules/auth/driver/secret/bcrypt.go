@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"golang.org/x/crypto/bcrypt"
-	"github.com/eject/modules/auth"
+	"bitbucket.org/kenorld/eject-extra/modules/auth"
 )
 
 // example implementation of a Eject auth security driver

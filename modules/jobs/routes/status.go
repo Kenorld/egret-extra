@@ -3,8 +3,8 @@ package controllers
 import (
 	"strings"
 
-	"github.com/eject/cron"
-	"github.com/eject/modules/jobs/app/jobs"
+	"bitbucket.org/kenorld/eject-corn"
+	"bitbucket.org/kenorld/eject-extra/modules/jobs/app/jobs"
 	"bitbucket.org/kenorld/eject-core"
 )
 
