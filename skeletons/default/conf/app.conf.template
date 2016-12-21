@@ -1,5 +1,5 @@
 ################################################################################
-# Revel configuration file
+# Eject configuration file
 # See:
 #   http://eject.github.io/manual/appconf.html
 #   for more detailed documentation.
@@ -15,7 +15,7 @@ app.name = {{ .AppName }}
 # into your application
 app.secret = {{ .Secret }}
 
-# Revel running behind proxy like nginx, haproxy, etc
+# Eject running behind proxy like nginx, haproxy, etc
 app.behind.proxy = false
 
 
@@ -35,11 +35,11 @@ http.ssl = false
 #http.sslkey =
 
 
-# For any cookies set by Revel (Session,Flash,Error) these properties will set
+# For any cookies set by Eject (Session,Flash,Error) these properties will set
 # the fields of:
 # http://golang.org/pkg/net/http/#Cookie
 #
-# Each cookie set by Revel is prefixed with this string.
+# Each cookie set by Eject is prefixed with this string.
 cookie.prefix = EJECT
 
 # A secure cookie has the secure attribute enabled and is only used via HTTPS,
@@ -64,7 +64,7 @@ cookie.prefix = EJECT
 session.expires = 720h
 
 
-# The date format used by Revel. Possible formats defined by the Go `time`
+# The date format used by Eject. Possible formats defined by the Go `time`
 # package (http://golang.org/pkg/time/#Parse)
 format.date     = 2006-01-02
 format.datetime = 2006-01-02 15:04
@@ -107,7 +107,7 @@ module.static=github.com/eject/modules/static
 
 ################################################################################
 # Section: dev
-# This section is evaluated when running Revel in dev mode. Like so:
+# This section is evaluated when running Eject in dev mode. Like so:
 #   `eject run path/to/myapp`
 [dev]
 # This sets `DevMode` variable to `true` which can be used in your code as
@@ -139,14 +139,14 @@ watch.mode = "normal"
 module.testrunner = github.com/eject/modules/testrunner
 
 
-# Where to log the various Revel logs
+# Where to log the various Eject logs
 log.trace.output = off
 log.info.output  = stderr
 log.warn.output  = stderr
 log.error.output = stderr
 
 
-# Revel log flags. Possible flags defined by the Go `log` package,
+# Eject log flags. Possible flags defined by the Go `log` package,
 # please refer https://golang.org/pkg/log/#pkg-constants
 # Go log is "Bits or'ed together to control what's printed"
 # Examples:
@@ -160,7 +160,7 @@ log.warn.flags  = 19
 log.error.flags = 19
 
 
-# Revel request access log
+# Eject request access log
 # Access log line format:
 # RequestStartTime ClientIP ResponseStatus RequestLatency HTTPMethod URLPath
 # Sample format:
@@ -170,7 +170,7 @@ log.request.output = stderr
 
 ################################################################################
 # Section: prod
-# This section is evaluated when running Revel in production mode. Like so:
+# This section is evaluated when running Eject in production mode. Like so:
 #   `eject run path/to/myapp prod`
 # See:
 #  [dev] section for documentation of the various settings
@@ -192,7 +192,7 @@ log.info.output  = off
 log.warn.output  = log/%(app.name)s.log
 log.error.output = log/%(app.name)s.log
 
-# Revel log flags. Possible flags defined by the Go `log` package,
+# Eject log flags. Possible flags defined by the Go `log` package,
 # please refer https://golang.org/pkg/log/#pkg-constants
 # Go log is "Bits or'ed together to control what's printed"
 # Examples:
@@ -206,7 +206,7 @@ log.warn.flags  = 3
 log.error.flags = 3
 
 
-# Revel request access log
+# Eject request access log
 # Access log line format:
 # RequestStartTime ClientIP ResponseStatus RequestLatency HTTPMethod URLPath
 # Sample format:

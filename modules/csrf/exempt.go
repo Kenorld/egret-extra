@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 
 	"github.com/eject/cron"
 	"github.com/eject/modules/jobs/app/jobs"
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 type Jobs struct {

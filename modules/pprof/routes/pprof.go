@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 	"net/http"
 	"net/http/pprof"
 )

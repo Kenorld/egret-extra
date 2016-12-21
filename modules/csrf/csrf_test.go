@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 var testFilters = []eject.Filter{

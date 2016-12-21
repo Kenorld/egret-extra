@@ -1,6 +1,6 @@
 // A job runner for executing scheduled or ad-hoc tasks asynchronously from HTTP requests.
 //
-// It adds a couple of features on top of the cron package to make it play nicely with Revel:
+// It adds a couple of features on top of the cron package to make it play nicely with Eject:
 // 1. Protection against job panics.  (They print to ERROR instead of take down the process)
 // 2. (Optional) Limit on the number of jobs that may run simulatenously, to
 //    limit resource consumption.
@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/eject/cron"
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 // Callers can use jobs.Func to wrap a raw func.

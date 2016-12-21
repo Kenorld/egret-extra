@@ -7,7 +7,7 @@ import (
 	"github.com/eject/modules/auth"
 )
 
-// example implementation of a Revel auth security driver
+// example implementation of a Eject auth security driver
 // This driver should be embedded into your app-level User model
 // It expects your User model to have `Password` and `HashedPassword` string fields
 //

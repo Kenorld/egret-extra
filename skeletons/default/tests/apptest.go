@@ -1,6 +1,6 @@
 package tests
 
-import "github.com/eject/eject/testing"
+import "bitbucket.org/kenorld/eject-core/testing"
 
 type AppTest struct {
 	testing.TestSuite

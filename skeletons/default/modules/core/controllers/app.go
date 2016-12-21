@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/eject/eject"
+import "bitbucket.org/kenorld/eject-core"
 
 type App struct {
 	*eject.Controller

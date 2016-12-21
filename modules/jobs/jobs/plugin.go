@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/eject/cron"
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 const DEFAULT_JOB_POOL_SIZE = 10

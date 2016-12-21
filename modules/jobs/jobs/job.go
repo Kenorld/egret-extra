@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 
 	"github.com/eject/cron"
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 type Job struct {

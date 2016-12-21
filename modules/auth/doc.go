@@ -1,4 +1,4 @@
-/*	A basic user authentication module for Revel
+/*	A basic user authentication module for Eject
 
  list of concerns:
 - Separating out the interface and driver
