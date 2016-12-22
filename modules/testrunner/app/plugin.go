@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"github.com/eject/eject"
+	"bitbucket.org/kenorld/eject-core"
 )
 
 func init() {

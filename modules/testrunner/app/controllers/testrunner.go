@@ -9,8 +9,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/eject/eject"
-	"github.com/eject/eject/testing"
+	"bitbucket.org/kenorld/eject-core"
+	"bitbucket.org/kenorld/eject-core/testing"
 )
 
 // TestRunner is a controller which is used for running application tests in browser.
