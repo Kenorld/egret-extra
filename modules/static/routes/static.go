@@ -86,7 +86,7 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	fname := fpath.Join(basePathPrefix, fpath.FromSlash(filepath))
 	// Verify the request file path is within the application's scope of access
 	if !strings.HasPrefix(fname, basePathPrefix) {
-		eject.WARN.Printf("Attempted to read file outside of base path: %s", fname)
+		eject.Logger.Warn("Attempted to read file outside of base path: %s", fname)
 		return c.NotFound("")
 	}
 
@@ -94,16 +94,16 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	finfo, err := os.Stat(fname)
 	if err != nil {
 		if os.IsNotExist(err) || err.(*os.PathError).Err == syscall.ENOTDIR {
-			eject.WARN.Printf("File not found (%s): %s ", fname, err)
+			eject.Logger.Warn("File not found (%s): %s ", fname, err)
 			return c.NotFound("File not found")
 		}
-		eject.ERROR.Printf("Error trying to get fileinfo for '%s': %s", fname, err)
+		eject.Logger.Error("Error trying to get fileinfo for '%s': %s", fname, err)
 		return c.RenderError(err)
 	}
 
 	// Disallow directory listing
 	if finfo.Mode().IsDir() {
-		eject.WARN.Printf("Attempted directory listing of %s", fname)
+		eject.Logger.Warn("Attempted directory listing of %s", fname)
 		return c.Forbidden("Directory listing not allowed")
 	}
 
@@ -111,10 +111,10 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	file, err := os.Open(fname)
 	if err != nil {
 		if os.IsNotExist(err) {
-			eject.WARN.Printf("File not found (%s): %s ", fname, err)
+			eject.Logger.Warn("File not found (%s): %s ", fname, err)
 			return c.NotFound("File not found")
 		}
-		eject.ERROR.Printf("Error opening '%s': %s", fname, err)
+		eject.Logger.Error("Error opening '%s': %s", fname, err)
 		return c.RenderError(err)
 	}
 	return c.RenderFile(file, eject.Inline)
