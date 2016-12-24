@@ -43,9 +43,9 @@ func (j *Job) Run() {
 	defer func() {
 		if err := recover(); err != nil {
 			if ejectError := eject.NewErrorFromPanic(err); ejectError != nil {
-				eject.ERROR.Print(err, "\n", ejectError.Stack)
+				eject.Logger.Error(err, "\n", ejectError.Stack)
 			} else {
-				eject.ERROR.Print(err, "\n", string(debug.Stack()))
+				eject.Logger.Error(err, "\n", string(debug.Stack()))
 			}
 		}
 	}()
