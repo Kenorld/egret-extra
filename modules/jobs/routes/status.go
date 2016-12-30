@@ -9,7 +9,7 @@ import (
 )
 
 type Jobs struct {
-	*eject.Controller
+	*eject.Context
 }
 
 func (c Jobs) Status() eject.Result {

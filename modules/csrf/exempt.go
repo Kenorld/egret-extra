@@ -17,15 +17,15 @@ func MarkExempt(route string) {
 		// e.g. "/controller/action"
 		exemptPath[strings.ToLower(route)] = true
 	} else if routeParts := strings.Split(route, "."); len(routeParts) == 2 {
-		// e.g. "ControllerName.ActionName"
+		// e.g. "ContextName.ActionName"
 		exemptAction[route] = true
 	} else {
-		err := fmt.Sprintf("csrf.MarkExempt() received invalid argument \"%v\". Either provide a path prefixed with \"/\" or controller action in the form of \"ControllerName.ActionName\".", route)
+		err := fmt.Sprintf("csrf.MarkExempt() received invalid argument \"%v\". Either provide a path prefixed with \"/\" or controller action in the form of \"ContextName.ActionName\".", route)
 		panic(err)
 	}
 }
 
-func IsExempt(c *eject.Controller) bool {
+func IsExempt(c *eject.Context) bool {
 	if _, ok := exemptPath[strings.ToLower(c.Request.Request.URL.Path)]; ok {
 		return true
 	} else if _, ok := exemptAction[c.Action]; ok {

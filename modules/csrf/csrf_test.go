@@ -11,20 +11,20 @@ import (
 	"bitbucket.org/kenorld/eject-core"
 )
 
-var testFilters = []eject.Filter{
-	CsrfFilter,
-	func(c *eject.Controller, fc []eject.Filter) {
-		c.RenderHtml("{{ csrftoken . }}")
+var testHandlers = []eject.Handler{
+	CsrfHandler,
+	func(c *eject.Context, fc []eject.Handler) {
+		c.RenderHTML("{{ csrftoken . }}")
 	},
 }
 
 func TestTokenInSession(t *testing.T) {
 	resp := httptest.NewRecorder()
 	getRequest, _ := http.NewRequest("GET", "http://www.example.com/", nil)
-	c := eject.NewController(eject.NewRequest(getRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(getRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if _, ok := c.Session["csrf_token"]; !ok {
 		t.Fatal("token should be present in session")
@@ -34,10 +34,10 @@ func TestTokenInSession(t *testing.T) {
 func TestPostWithoutToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status != 403 {
 		t.Fatal("post without token should be forbidden")
@@ -48,7 +48,7 @@ func TestNoReferrer(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
 
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
 	RefreshToken(c)
@@ -64,7 +64,7 @@ func TestNoReferrer(t *testing.T) {
 	// and replace the old request
 	c.Request = eject.NewRequest(formPostRequest)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status != 403 {
 		t.Fatal("post without referer should be forbidden")
@@ -74,7 +74,7 @@ func TestNoReferrer(t *testing.T) {
 func TestRefererHttps(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 
 	c.Session = make(eject.Session)
 
@@ -92,7 +92,7 @@ func TestRefererHttps(t *testing.T) {
 	// and replace the old request
 	c.Request = eject.NewRequest(formPostRequest)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status != 403 {
 		t.Fatal("posts to https should have an https referer")
@@ -102,7 +102,7 @@ func TestRefererHttps(t *testing.T) {
 func TestHeaderWithToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 
 	c.Session = make(eject.Session)
 
@@ -117,7 +117,7 @@ func TestHeaderWithToken(t *testing.T) {
 	// and replace the old request
 	c.Request = eject.NewRequest(formPostRequest)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status == 403 {
 		t.Fatal("post with http header token should be allowed")
@@ -127,7 +127,7 @@ func TestHeaderWithToken(t *testing.T) {
 func TestFormPostWithToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 
 	c.Session = make(eject.Session)
 
@@ -145,7 +145,7 @@ func TestFormPostWithToken(t *testing.T) {
 	// and replace the old request
 	c.Request = eject.NewRequest(formPostRequest)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status == 403 {
 		t.Fatal("form post with token should be allowed")
@@ -158,10 +158,10 @@ func TestNoTokenInArgsWhenCORs(t *testing.T) {
 	getRequest, _ := http.NewRequest("GET", "http://www.example1.com/", nil)
 	getRequest.Header.Add("Referer", "http://www.example2.com/")
 
-	c := eject.NewController(eject.NewRequest(getRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(getRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if _, ok := c.RenderArgs["_csrftoken"]; ok {
 		t.Fatal("RenderArgs should not contain token when not same origin")

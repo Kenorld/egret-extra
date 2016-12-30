@@ -29,7 +29,7 @@ func RandomString(length int) (string, error) {
 	return str[:length], nil
 }
 
-func RefreshToken(c *eject.Controller) {
+func RefreshToken(c *eject.Context) {
 	token, err := RandomString(64)
 	if err != nil {
 		panic(err)
@@ -37,12 +37,12 @@ func RefreshToken(c *eject.Controller) {
 	c.Session["csrf_token"] = token
 }
 
-// CsrfFilter enables CSRF request token creation and verification.
+// CsrfHandler enables CSRF request token creation and verification.
 //
 // Usage:
-//  1) Add `csrf.CsrfFilter` to the app's filters (it must come after the eject.SessionFilter).
+//  1) Add `csrf.CsrfHandler` to the app's filters (it must come after the eject.SessionHandler).
 //  2) Add CSRF fields to a form with the template tag `{{ csrftoken . }}`. The filter adds a function closure to the `RenderArgs` that can pull out the secret and make the token as-needed, caching the value in the request. Ajax support provided through the `X-CSRFToken` header.
-func CsrfFilter(c *eject.Controller, fc []eject.Filter) {
+func CsrfHandler(c *eject.Context, fc []eject.Handler) {
 	token, foundToken := c.Session["csrf_token"]
 
 	if !foundToken {

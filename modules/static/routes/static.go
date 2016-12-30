@@ -9,7 +9,7 @@ import (
 )
 
 type Static struct {
-	*eject.Controller
+	*eject.Context
 }
 
 // This method handles requests for files. The supplied prefix may be absolute

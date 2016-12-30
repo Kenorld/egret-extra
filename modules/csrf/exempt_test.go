@@ -9,14 +9,14 @@ import (
 )
 
 func TestExemptPath(t *testing.T) {
-	MarkExempt("/Controller/Action")
+	MarkExempt("/Context/Action")
 
 	resp := httptest.NewRecorder()
-	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Controller/Action", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Context/Action", nil)
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status == 403 {
 		t.Fatal("post to csrf exempt action should pass")
@@ -24,14 +24,14 @@ func TestExemptPath(t *testing.T) {
 }
 
 func TestExemptPathCaseInsensitive(t *testing.T) {
-	MarkExempt("/Controller/Action")
+	MarkExempt("/Context/Action")
 
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/controller/action", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status == 403 {
 		t.Fatal("post to csrf exempt action should pass")
@@ -39,15 +39,15 @@ func TestExemptPathCaseInsensitive(t *testing.T) {
 }
 
 func TestExemptAction(t *testing.T) {
-	MarkExempt("Controller.Action")
+	MarkExempt("Context.Action")
 
 	resp := httptest.NewRecorder()
-	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Controller/Action", nil)
-	c := eject.NewController(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Context/Action", nil)
+	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
 	c.Session = make(eject.Session)
-	c.Action = "Controller.Action"
+	c.Action = "Context.Action"
 
-	testFilters[0](c, testFilters)
+	testHandlers[0](c, testHandlers)
 
 	if c.Response.Status == 403 {
 		t.Fatal("post to csrf exempt action should pass")

@@ -15,7 +15,7 @@ import (
 
 // TestRunner is a controller which is used for running application tests in browser.
 type TestRunner struct {
-	*eject.Controller
+	*eject.Context
 }
 
 // TestSuiteDesc is used for storing information about a single test suite.
@@ -63,7 +63,7 @@ var (
 )
 
 /*
-	Controller's action methods are below.
+	Context's action methods are below.
 */
 
 // Index is an action which renders the full list of available test suites and their tests.

@@ -7,7 +7,7 @@ import (
 )
 
 type Pprof struct {
-	*eject.Controller
+	*eject.Context
 }
 
 // The PprofHandler type makes it easy to call the net/http/pprof handler methods
