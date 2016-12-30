@@ -89,8 +89,6 @@ func CsrfHandler(c *eject.Context, fc []eject.Handler) {
 		}
 	}
 
-	fc[0](c, fc[1:])
-
 	// Only add token to RenderArgs if the request is: not AJAX, not missing referer header, and is same origin.
 	if c.Request.Header.Get("X-CSRFToken") == "" && isSameOrigin {
 		c.RenderArgs["_csrftoken"] = token
