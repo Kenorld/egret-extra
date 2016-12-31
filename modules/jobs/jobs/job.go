@@ -8,6 +8,7 @@ import (
 
 	"bitbucket.org/kenorld/eject-corn"
 	"bitbucket.org/kenorld/eject-core"
+	"github.com/Sirupsen/logrus"
 )
 
 type Job struct {
@@ -43,9 +44,15 @@ func (j *Job) Run() {
 	defer func() {
 		if err := recover(); err != nil {
 			if ejectError := eject.NewErrorFromPanic(err); ejectError != nil {
-				eject.Logger.Error(err, "\n", ejectError.Stack)
+				logrus.WithFields(logrus.Fields{
+				"error": err,
+				"stack": ejectError.Stack
+			}).Error("error in job")
 			} else {
-				eject.Logger.Error(err, "\n", string(debug.Stack()))
+				logrus.WithFields(logrus.Fields{
+				"error": err,
+				"stack": string(debug.Stack())
+			}).Error("error in job")
 			}
 		}
 	}()

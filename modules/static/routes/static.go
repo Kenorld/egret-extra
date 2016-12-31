@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"bitbucket.org/kenorld/eject-core"
+	"github.com/Sirupsen/logrus"
 )
 
 type Static struct {
@@ -86,7 +87,9 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	fname := fpath.Join(basePathPrefix, fpath.FromSlash(filepath))
 	// Verify the request file path is within the application's scope of access
 	if !strings.HasPrefix(fname, basePathPrefix) {
-		eject.Logger.Warn("Attempted to read file outside of base path: %s", fname)
+		logrus.WithFields(logrus.Fields{
+			"path": fname,
+		}).Warn("Attempted to read file outside of base path.")
 		return c.NotFound("")
 	}
 
@@ -94,16 +97,24 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	finfo, err := os.Stat(fname)
 	if err != nil {
 		if os.IsNotExist(err) || err.(*os.PathError).Err == syscall.ENOTDIR {
-			eject.Logger.Warn("File not found (%s): %s ", fname, err)
-			return c.NotFound("File not found")
+			logrus.WithFields(logrus.Fields{
+				"path":  fname,
+				"error": err,
+			}).Warn("File not found")
+			return c.NotFound("File not found.")
 		}
-		eject.Logger.Error("Error trying to get fileinfo for '%s': %s", fname, err)
+		logrus.WithFields(logrus.Fields{
+			"path":  fname,
+			"error": err,
+		}).Error("Error trying to get fileinfo.")
 		return c.RenderError(err)
 	}
 
 	// Disallow directory listing
 	if finfo.Mode().IsDir() {
-		eject.Logger.Warn("Attempted directory listing of %s", fname)
+		logrus.WithFields(logrus.Fields{
+			"path": fname,
+		}).Warn("Attempted directory listing.")
 		return c.Forbidden("Directory listing not allowed")
 	}
 
@@ -111,10 +122,16 @@ func serve(c Static, prefix, filepath string) eject.Result {
 	file, err := os.Open(fname)
 	if err != nil {
 		if os.IsNotExist(err) {
-			eject.Logger.Warn("File not found (%s): %s ", fname, err)
-			return c.NotFound("File not found")
+			logrus.WithFields(logrus.Fields{
+				"path":  fname,
+				"error": err,
+			}).Warn("File not found", fname, err)
+			return c.NotFound("File not found.")
 		}
-		eject.Logger.Error("Error opening '%s': %s", fname, err)
+		logrus.WithFields(logrus.Fields{
+			"path":  fname,
+			"error": err,
+		}).Error("Error opening.")
 		return c.RenderError(err)
 	}
 	return c.RenderFile(file, eject.Inline)
