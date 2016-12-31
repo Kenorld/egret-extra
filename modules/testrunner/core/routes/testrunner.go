@@ -66,95 +66,103 @@ var (
 */
 
 // Index is an action which renders the full list of available test suites and their tests.
-func (c TestRunner) Index() eject.Result {
-	c.RenderArgs["suiteFound"] = len(testSuites) > 0
-	return c.Render(testSuites)
+func Index() eject.HandlerFunc {
+	return func(c *eject.Context) {
+		c.RenderArgs["suiteFound"] = len(testSuites) > 0
+		c.RenderJSON(testSuites)
+	}
 }
 
 // Suite method allows user to navigate to individual Test Suite and their tests
-func (c TestRunner) Suite(suite string) eject.Result {
-	var foundTestSuites []TestSuiteDesc
-	for _, testSuite := range testSuites {
-		if strings.EqualFold(testSuite.Name, suite) {
-			foundTestSuites = append(foundTestSuites, testSuite)
+func Suite(suite string) eject.HandlerFunc {
+	return func(c *eject.Context) {
+		var foundTestSuites []TestSuiteDesc
+		for _, testSuite := range testSuites {
+			if strings.EqualFold(testSuite.Name, suite) {
+				foundTestSuites = append(foundTestSuites, testSuite)
+			}
 		}
+
+		c.RenderArgs["testSuites"] = foundTestSuites
+		c.RenderArgs["suiteFound"] = len(foundTestSuites) > 0
+		c.RenderArgs["suiteName"] = suite
+
+		/////c.RenderTemplate("TestRunner/Index.html")
 	}
-
-	c.RenderArgs["testSuites"] = foundTestSuites
-	c.RenderArgs["suiteFound"] = len(foundTestSuites) > 0
-	c.RenderArgs["suiteName"] = suite
-
-	return c.RenderTemplate("TestRunner/Index.html")
 }
 
 // Run runs a single test, given by the argument.
-func (c TestRunner) Run(suite, test string) eject.Result {
-	// Check whether requested test exists.
-	suiteIndex, ok := registeredTests[suite+"."+test]
-	if !ok {
-		return c.NotFound("Test %s.%s does not exist", suite, test)
-	}
+func Run(suite, test string) eject.HandlerFunc {
+	return func(c *eject.Context) {
+		// Check whether requested test exists.
+		suiteIndex, ok := registeredTests[suite+"."+test]
+		if !ok {
+			c.NotFound("Test %s.%s does not exist", suite, test)
+		}
 
-	result := TestResult{Name: test}
+		result := TestResult{Name: test}
 
-	// Found the suite, create a new instance and run the named method.
-	t := testSuites[suiteIndex].Elem
-	v := reflect.New(t)
-	func() {
-		// When the function stops executing try to recover from panic.
-		defer func() {
-			if err := recover(); err != nil {
-				// If panic error is empty, exit.
-				panicErr := eject.NewErrorFromPanic(err)
-				if panicErr == nil {
-					return
+		// Found the suite, create a new instance and run the named method.
+		t := testSuites[suiteIndex].Elem
+		v := reflect.New(t)
+		func() {
+			// When the function stops executing try to recover from panic.
+			defer func() {
+				if err := recover(); err != nil {
+					// If panic error is empty, exit.
+					panicErr := eject.NewErrorFromPanic(err)
+					if panicErr == nil {
+						return
+					}
+
+					// Otherwise, prepare and format the response of server if possible.
+					testSuite := v.Elem().FieldByName("TestSuite").Interface().(testing.TestSuite)
+					res := formatResponse(testSuite)
+
+					// Render the error and save to the result structure.
+					var buffer bytes.Buffer
+					tmpl, _ := eject.MainTemplateLoader.Template("TestRunner/FailureDetail.html")
+					tmpl.Render(&buffer, map[string]interface{}{
+						"error":    panicErr,
+						"response": res,
+						"postfix":  suite + "_" + test,
+					})
+					result.ErrorSummary = errorSummary(panicErr)
+					result.ErrorHTML = template.HTML(buffer.String())
 				}
+			}()
 
-				// Otherwise, prepare and format the response of server if possible.
-				testSuite := v.Elem().FieldByName("TestSuite").Interface().(testing.TestSuite)
-				res := formatResponse(testSuite)
+			// Initialize the test suite with a NewTestSuite()
+			testSuiteInstance := v.Elem().FieldByName("TestSuite")
+			testSuiteInstance.Set(reflect.ValueOf(testing.NewTestSuite()))
 
-				// Render the error and save to the result structure.
-				var buffer bytes.Buffer
-				tmpl, _ := eject.MainTemplateLoader.Template("TestRunner/FailureDetail.html")
-				tmpl.Render(&buffer, map[string]interface{}{
-					"error":    panicErr,
-					"response": res,
-					"postfix":  suite + "_" + test,
-				})
-				result.ErrorSummary = errorSummary(panicErr)
-				result.ErrorHTML = template.HTML(buffer.String())
+			// Make sure After method will be executed at the end.
+			if m := v.MethodByName("After"); m.IsValid() {
+				defer m.Call(none)
 			}
+
+			// Start from running Before method of test suite if exists.
+			if m := v.MethodByName("Before"); m.IsValid() {
+				m.Call(none)
+			}
+
+			// Start the test method itself.
+			v.MethodByName(test).Call(none)
+
+			// No panic means success.
+			result.Passed = true
 		}()
 
-		// Initialize the test suite with a NewTestSuite()
-		testSuiteInstance := v.Elem().FieldByName("TestSuite")
-		testSuiteInstance.Set(reflect.ValueOf(testing.NewTestSuite()))
-
-		// Make sure After method will be executed at the end.
-		if m := v.MethodByName("After"); m.IsValid() {
-			defer m.Call(none)
-		}
-
-		// Start from running Before method of test suite if exists.
-		if m := v.MethodByName("Before"); m.IsValid() {
-			m.Call(none)
-		}
-
-		// Start the test method itself.
-		v.MethodByName(test).Call(none)
-
-		// No panic means success.
-		result.Passed = true
-	}()
-
-	return c.RenderJson(result)
+		c.RenderJSON(result)
+	}
 }
 
 // List returns a JSON list of test suites and tests.
 // It is used by eject test command line tool.
-func (c TestRunner) List() eject.Result {
-	return c.RenderJson(testSuites)
+func List() eject.HandlerFunc {
+	return func(c *eject.Context) {
+		c.RenderJSON(testSuites)
+	}
 }
 
 /*
@@ -208,15 +216,15 @@ func describeSuite(testSuite interface{}) TestSuiteDesc {
 
 // errorSummary gets an error and returns its summary in human readable format.
 func errorSummary(err *eject.Error) (message string) {
-	expected_prefix := "(expected)"
-	actual_prefix := "(actual)"
+	expectedPrefix := "(expected)"
+	actualPrefix := "(actual)"
 	errDesc := err.Description
 	//strip the actual/expected stuff to provide more condensed display.
-	if strings.Index(errDesc, expected_prefix) == 0 {
-		errDesc = errDesc[len(expected_prefix):len(errDesc)]
+	if strings.Index(errDesc, expectedPrefix) == 0 {
+		errDesc = errDesc[len(expectedPrefix):len(errDesc)]
 	}
-	if strings.LastIndex(errDesc, actual_prefix) > 0 {
-		errDesc = errDesc[0 : len(errDesc)-len(actual_prefix)]
+	if strings.LastIndex(errDesc, actualPrefix) > 0 {
+		errDesc = errDesc[0 : len(errDesc)-len(actualPrefix)]
 	}
 
 	errFile := err.Path
