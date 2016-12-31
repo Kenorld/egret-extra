@@ -1,11 +1,10 @@
-package controllers
+package routes
 
 import (
 	"strings"
 
-	"bitbucket.org/kenorld/eject-corn"
-	"bitbucket.org/kenorld/eject-extra/modules/jobs/app/jobs"
 	"bitbucket.org/kenorld/eject-core"
+	"bitbucket.org/kenorld/eject-extra/modules/jobs/app/jobs"
 )
 
 type Jobs struct {

@@ -1,7 +1,7 @@
 ################################################################################
 # Eject configuration file
 # See:
-#   http://eject.github.io/manual/appconf.html
+#   http://www.kenorld.com/products/eject//manual/appconf.html
 #   for more detailed documentation.
 ################################################################################
 
@@ -135,7 +135,7 @@ watch.mode = "normal"
 
 # Module to run code tests in the browser
 # See:
-#   http://eject.github.io/manual/testing.html
+#   http://www.kenorld.com/products/eject//manual/testing.html
 module.testrunner = bitbucket.org/kenorld/eject-extra/modules/testrunner
 
 

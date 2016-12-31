@@ -5,7 +5,7 @@
 - Removing DB/Storage dependency
 - UUID as default identifier?
 - how to deal with password/secret or generally, method of authorization
-- default {views,controllers,routes} for register/login/logut ?
+- default {views,routes} for register/login/logut ?
 - reset password in most basic ?
 - activation (and other features) in a second / more sophisticated driver
 - filter for checking that user is authenticated

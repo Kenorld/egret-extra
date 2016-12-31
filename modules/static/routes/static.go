@@ -1,11 +1,12 @@
-package controllers
+package routes
 
 import (
-	"bitbucket.org/kenorld/eject-core"
 	"os"
 	fpath "path/filepath"
 	"strings"
 	"syscall"
+
+	"bitbucket.org/kenorld/eject-core"
 )
 
 type Static struct {
@@ -73,7 +74,6 @@ func (c Static) ServeModule(moduleName, prefix, filepath string) eject.Result {
 
 	return serve(c, absPath, filepath)
 }
-
 
 // This method allows static serving of application files in a verified manner.
 func serve(c Static, prefix, filepath string) eject.Result {

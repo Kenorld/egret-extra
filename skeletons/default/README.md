@@ -19,8 +19,8 @@ A high-productivity web framework for the [Go language](http://www.golang.org/).
 The default directory structure of a generated Eject application:
 
     myapp               App root
-      app               App sources
-        controllers     App controllers
+      core               App sources
+        routes     App routes
           init.go       Interceptor registration
         models          App domain models
         routes          Reverse routes (generated code)
@@ -64,9 +64,9 @@ test
 ### Follow the guidelines to start developing your application:
 
 * The README file created within your application.
-* The [Getting Started with Eject](http://eject.github.io/tutorial/index.html).
-* The [Eject guides](http://eject.github.io/manual/index.html).
-* The [Eject sample apps](http://eject.github.io/samples/index.html).
+* The [Getting Started with Eject](http://www.kenorld.com/products/eject//tutorial/index.html).
+* The [Eject guides](http://www.kenorld.com/products/eject//manual/index.html).
+* The [Eject sample apps](http://www.kenorld.com/products/eject//samples/index.html).
 * The [API documentation](https://godoc.org/bitbucket.org/kenorld/eject-core).
 
 ## Contributing

@@ -1,4 +1,4 @@
-package controllers
+package routes
 
 import (
 	"bytes"
@@ -15,7 +15,6 @@ import (
 
 // TestRunner is a controller which is used for running application tests in browser.
 type TestRunner struct {
-	*eject.Context
 }
 
 // TestSuiteDesc is used for storing information about a single test suite.

@@ -1,9 +1,10 @@
-package controllers
+package routes
 
 import (
-	"bitbucket.org/kenorld/eject-core"
 	"net/http"
 	"net/http/pprof"
+
+	"bitbucket.org/kenorld/eject-core"
 )
 
 type Pprof struct {
