@@ -68,7 +68,7 @@ var (
 // Index is an action which renders the full list of available test suites and their tests.
 func Index() eject.HandlerFunc {
 	return func(c *eject.Context) {
-		c.RenderArgs["suiteFound"] = len(testSuites) > 0
+		c.Set("suiteFound"), len(testSuites) > 0]
 		c.RenderJSON(testSuites)
 	}
 }
@@ -83,9 +83,9 @@ func Suite(suite string) eject.HandlerFunc {
 			}
 		}
 
-		c.RenderArgs["testSuites"] = foundTestSuites
-		c.RenderArgs["suiteFound"] = len(foundTestSuites) > 0
-		c.RenderArgs["suiteName"] = suite
+		c.Set("testSuites", foundTestSuites)
+		c.Set("suiteFound", len(foundTestSuites) > 0)
+		c.Set("suiteName", suite)
 
 		/////c.RenderTemplate("TestRunner/Index.html")
 	}
