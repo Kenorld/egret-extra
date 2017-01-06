@@ -1,19 +1,33 @@
-eject pprof module
-============
+## Middleware information
 
-#### How to use:
+This folder contains a middleware which enables net/http/pprof.
 
-1. Open your app.conf file and add the following line:  
-`module.pprof=github.com/acroidea/eject-extra/pprof`  
-This will enable the pprof module.
 
-2. Next, open your routes file and add:  
-`module:pprof` **Note:** Do not change these routes. The pprof command-line tool by default assumes these routes.
+## Install
 
-Congrats! You can now profile your application. To use the web interface, visit `http://<host>:<port>/debug/pprof`. You can also use the `go tool pprof` command to profile your application and get a little deeper. Use the command by running `go tool pprof <binary> http://<host>:<port>`. For example, if you modified the booking sample, you would run: `go tool pprof $GOPATH/bin/booking http://localhost:9000` (assuming you used the default `eject run` arguments.
+```sh
+$ go get -u github.com/eject-contrib/middleware/pprof
+```
 
-The command-line tool will take a 30-second CPU profile, and save the results to a temporary file in your `$HOME/pprof` directory. You can reference this file at a later time by using the same command as above, but by specifying the filename instead of the server address.
+## Usage
 
-In order to fully utilize the command-line tool, you may need the graphviz utilities. If you're on OS X, you can install these easily using Homebrew: `brew install graphviz`.
+```go
+package main
 
-To read more about profiling Go programs, here is some reading material: [The Go Blog](http://blog.golang.org/profiling-go-programs) : [net/pprof package documentation](http://golang.org/pkg/net/http/pprof/)
+import (
+	"github.com/eject-contrib/middleware/pprof"
+	"bitbucket.org/kenorld/eject-core"
+)
+
+func main() {
+  
+	eject.Get("/", func(ctx *eject.Context) {
+		ctx.HTML(eject.StatusOK, "<h1> Please click <a href='/debug/pprof'>here</a>")
+	})
+
+	eject.Get("/debug/pprof/*action", pprof.New())
+
+	eject.Listen(":8080")
+}
+
+```

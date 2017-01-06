@@ -109,7 +109,7 @@ func sameOrigin(u1, u2 *url.URL) bool {
 }
 
 func init() {
-	eject.TemplateFuncs["csrftoken"] = func(renderArgs map[string]interface{}) template.HTML {
+	eject.SharedTemplateFunc["csrftoken"] = func(renderArgs map[string]interface{}) template.HTML {
 		if tokenFunc, ok := renderArgs["_csrftoken"]; !ok {
 			panic("EJECT CSRF: _csrftoken missing from RenderArgs.")
 		} else {
