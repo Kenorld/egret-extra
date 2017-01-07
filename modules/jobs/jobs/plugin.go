@@ -3,7 +3,6 @@ package jobs
 import (
 	"fmt"
 
-	"bitbucket.org/kenorld/eject-corn"
 	"bitbucket.org/kenorld/eject-core"
 )
 
