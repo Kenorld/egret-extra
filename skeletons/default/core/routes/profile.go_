@@ -1,0 +1,8 @@
+package routes
+
+import "bitbucket.org/kenorld/eject-core"
+
+func Profile(ctx *eject.Context) {
+	id := ctx.Param("id")
+	ctx.MustRender("profile.html", eject.Map{"Id": id})
+}
