@@ -30,6 +30,8 @@ type Middleware struct {
 // OnError default error handler
 func OnError(ctx *eject.Context, err string) {
 	ctx.SetStatusCode(http.StatusUnauthorized)
+	ctx.Error = eject.NewErrorFromPanic(err)
+	ctx.Abort()
 }
 
 // New constructs a new Secure instance with supplied options.
