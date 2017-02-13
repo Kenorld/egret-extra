@@ -4,7 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"net/http"
 	"strings"
+
+	jwt "github.com/dgrijalva/jwt-go"
 
 	"bitbucket.org/kenorld/eject-core"
 )
@@ -26,13 +29,11 @@ type Middleware struct {
 
 // OnError default error handler
 func OnError(ctx *eject.Context, err string) {
-	ctx.SetStatusCode(eject.StatusUnauthorized)
-	ctx.Writef(err)
+	ctx.SetStatusCode(http.StatusUnauthorized)
 }
 
 // New constructs a new Secure instance with supplied options.
 func New(cfg ...Config) *Middleware {
-
 	var c Config
 	if len(cfg) == 0 {
 		c = Config{}
@@ -68,19 +69,13 @@ func (m *Middleware) Get(ctx *eject.Context) *jwt.Token {
 
 // Serve the middleware's action
 func (m *Middleware) Serve(ctx *eject.Context) {
-	err := m.CheckJWT(ctx)
-
-	// If there was an error, do not call next.
-	if err == nil {
-		ctx.Next()
-	}
+	m.CheckJWT(ctx)
 }
 
 // FromAuthHeader is a "TokenExtractor" that takes a give context and extracts
 // the JWT token from the Authorization header.
 func FromAuthHeader(ctx *eject.Context) (string, error) {
-
-	authHeader := ctx.RequestHeader("Authorization")
+	authHeader := ctx.Request.Header.Get("Authorization")
 	if authHeader == "" {
 		return "", nil // No error, just no token
 	}
@@ -98,7 +93,7 @@ func FromAuthHeader(ctx *eject.Context) (string, error) {
 // query string parameter
 func FromParameter(param string) TokenExtractor {
 	return func(ctx *eject.Context) (string, error) {
-		return ctx.URLParam(param), nil
+		return ctx.Query(param), nil
 	}
 }
 
@@ -122,7 +117,7 @@ func FromFirst(extractors ...TokenExtractor) TokenExtractor {
 // CheckJWT the main functionality, checks for token
 func (m *Middleware) CheckJWT(ctx *eject.Context) error {
 	if !m.Config.EnableAuthOnOptions {
-		if ctx.Method() == eject.MethodOptions {
+		if ctx.Request.Method == "OPTIONS" {
 			return nil
 		}
 	}
@@ -160,7 +155,6 @@ func (m *Middleware) CheckJWT(ctx *eject.Context) error {
 	}
 
 	// Now parse the token
-
 	parsedToken, err := jwt.Parse(token, m.Config.ValidationKeyGetter)
 	// Check if there was an error in parsing...
 	if err != nil {
