@@ -30,7 +30,12 @@ type Middleware struct {
 // OnError default error handler
 func OnError(ctx *eject.Context, err string) {
 	ctx.SetStatusCode(http.StatusUnauthorized)
-	ctx.Error = eject.NewErrorFromPanic(err)
+	ctx.Error = &eject.Error{
+		Code:        http.StatusUnauthorized,
+		Status:      "StatusUnauthorized",
+		Title:       "Unauthorized",
+		Description: "JWT Unauthorized",
+	}
 	ctx.Abort()
 }
 
