@@ -31,8 +31,8 @@ type Middleware struct {
 func OnError(ctx *eject.Context, err string) {
 	ctx.SetStatusCode(http.StatusUnauthorized)
 	ctx.Error = &eject.Error{
-		Code:        http.StatusUnauthorized,
-		Status:      "StatusUnauthorized",
+		Status:      http.StatusUnauthorized,
+		Name:        "UNAUTHORIZED",
 		Title:       "Unauthorized",
 		Description: "JWT Unauthorized",
 	}
