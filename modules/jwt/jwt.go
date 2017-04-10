@@ -14,6 +14,7 @@ import (
 
 // A function called whenever an error is encountered
 type errorHandler func(*eject.Context, string)
+type passedHandler func(*eject.Context, *jwt.Token)
 
 // TokenExtractor is a function that takes a context as input and returns
 // either a token or an error.  An error should only be returned if an attempt
@@ -25,6 +26,7 @@ type TokenExtractor func(*eject.Context) (string, error)
 // Middleware the middleware for JSON Web tokens authentication method
 type Middleware struct {
 	Config Config
+	Token  *jwt.Token
 }
 
 // OnError default error handler
@@ -67,11 +69,6 @@ func (m *Middleware) logf(format string, args ...interface{}) {
 	if m.Config.Debug {
 		log.Printf(format, args...)
 	}
-}
-
-// Get returns the user (&token) information for this client/request
-func (m *Middleware) Get(ctx *eject.Context) *jwt.Token {
-	return ctx.Get(m.Config.ContextKey).(*jwt.Token)
 }
 
 // Serve the middleware's action
@@ -191,6 +188,11 @@ func (m *Middleware) CheckJWT(ctx *eject.Context) error {
 	// If we get here, everything worked and we can set the
 	// user property in context.
 	ctx.Set(m.Config.ContextKey, parsedToken)
+	m.Token = parsedToken
+
+	if m.Config.PassedHandler != nil {
+		m.Config.PassedHandler(ctx, parsedToken)
+	}
 
 	return nil
 }

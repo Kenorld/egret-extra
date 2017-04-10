@@ -19,7 +19,8 @@ type Config struct {
 	ContextKey string
 	// The function that will be called when there's an error validating the token
 	// Default value:
-	ErrorHandler errorHandler
+	ErrorHandler  errorHandler
+	PassedHandler passedHandler
 	// A boolean indicating if the credentials are required or not
 	// Default value: false
 	CredentialsOptional bool
