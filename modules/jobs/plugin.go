@@ -1,12 +1,8 @@
 package jobs
 
-import (
-	"fmt"
+import "bitbucket.org/kenorld/eject-core"
 
-	"bitbucket.org/kenorld/eject-core"
-)
-
-const DEFAULT_JOB_POOL_SIZE = 10
+const DefaultJobPoolSize = 10
 
 var (
 	// Singleton instance of the underlying job scheduler.
@@ -22,11 +18,10 @@ var (
 func init() {
 	MainCron = cron.New()
 	eject.OnAppStart(func() {
-		if size := eject.Config.IntDefault("jobs.pool", DEFAULT_JOB_POOL_SIZE); size > 0 {
+		if size := eject.Config.IntDefault("jobs.pool", DefaultJobPoolSize); size > 0 {
 			workPermits = make(chan struct{}, size)
 		}
-		selfConcurrent = eject.Config.BoolDefault("jobs.selfconcurrent", false)
+		selfConcurrent = eject.Config.BoolDefault("jobs.self_concurrent", false)
 		MainCron.Start()
-		fmt.Println("Go to /@jobs to see job status.")
 	})
 }
