@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"bitbucket.org/kenorld/eject-corn"
 	"bitbucket.org/kenorld/eject-core"
+	"bitbucket.org/kenorld/eject-cron"
 )
 
 // Callers can use jobs.Func to wrap a raw func.
@@ -30,11 +30,10 @@ func (r Func) Run() { r() }
 func Schedule(spec string, job cron.Job) error {
 	// Look to see if given spec is a key from the Config.
 	if strings.HasPrefix(spec, "cron.") {
-		confSpec, found := eject.Config.String(spec)
-		if !found {
+		if !eject.Config.IsSet(spec) {
 			panic("Cron spec not found: " + spec)
 		}
-		spec = confSpec
+		spec = eject.Config.GetString(spec)
 	}
 	sched, err := cron.Parse(spec)
 	if err != nil {

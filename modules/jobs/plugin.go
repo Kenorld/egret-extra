@@ -1,6 +1,9 @@
 package jobs
 
-import "bitbucket.org/kenorld/eject-core"
+import (
+	"bitbucket.org/kenorld/eject-core"
+	"bitbucket.org/kenorld/eject-cron"
+)
 
 const DefaultJobPoolSize = 10
 
@@ -18,10 +21,10 @@ var (
 func init() {
 	MainCron = cron.New()
 	eject.OnAppStart(func() {
-		if size := eject.Config.IntDefault("jobs.pool", DefaultJobPoolSize); size > 0 {
+		if size := eject.Config.GetIntDefault("jobs.pool", DefaultJobPoolSize); size > 0 {
 			workPermits = make(chan struct{}, size)
 		}
-		selfConcurrent = eject.Config.BoolDefault("jobs.self_concurrent", false)
+		selfConcurrent = eject.Config.GetBoolDefault("jobs.self_concurrent", false)
 		MainCron.Start()
 	})
 }

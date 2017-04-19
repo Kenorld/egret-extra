@@ -6,8 +6,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"bitbucket.org/kenorld/eject-corn"
 	"bitbucket.org/kenorld/eject-core"
+	"bitbucket.org/kenorld/eject-cron"
 	"github.com/Sirupsen/logrus"
 )
 
@@ -45,14 +45,14 @@ func (j *Job) Run() {
 		if err := recover(); err != nil {
 			if ejectError := eject.NewErrorFromPanic(err); ejectError != nil {
 				logrus.WithFields(logrus.Fields{
-				"error": err,
-				"stack": ejectError.Stack
-			}).Error("error in job")
+					"error": err,
+					"stack": ejectError.Stack,
+				}).Error("error in job")
 			} else {
 				logrus.WithFields(logrus.Fields{
-				"error": err,
-				"stack": string(debug.Stack())
-			}).Error("error in job")
+					"error": err,
+					"stack": string(debug.Stack()),
+				}).Error("error in job")
 			}
 		}
 	}()
