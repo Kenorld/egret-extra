@@ -19,7 +19,7 @@ func main() {
 	eject.Init(*runMode, *importPath, *srcPath)
 	// DB Main
 	//DbMain()
-	routes.Register(eject.MainRouter)
+	routes.Register()
 
 	// start the server
 	eject.Serve(*port)
