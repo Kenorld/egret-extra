@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 func TestExemptPath(t *testing.T) {
@@ -13,8 +13,8 @@ func TestExemptPath(t *testing.T) {
 
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Context/Action", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	testHandlers[0](c, testHandlers)
 
@@ -28,8 +28,8 @@ func TestExemptPathCaseInsensitive(t *testing.T) {
 
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/controller/action", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	testHandlers[0](c, testHandlers)
 
@@ -43,8 +43,8 @@ func TestExemptAction(t *testing.T) {
 
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/Context/Action", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 	c.Action = "Context.Action"
 
 	testHandlers[0](c, testHandlers)

@@ -9,7 +9,7 @@ import (
 	"math"
 	"net/url"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 // allowMethods are HTTP methods that do NOT require a token
@@ -29,7 +29,7 @@ func RandomString(length int) (string, error) {
 	return str[:length], nil
 }
 
-func RefreshToken(c *eject.Context) {
+func RefreshToken(c *egret.Context) {
 	token, err := RandomString(64)
 	if err != nil {
 		panic(err)
@@ -40,9 +40,9 @@ func RefreshToken(c *eject.Context) {
 // CsrfHandler enables CSRF request token creation and verification.
 //
 // Usage:
-//  1) Add `csrf.CsrfHandler` to the app's filters (it must come after the eject.SessionHandler).
+//  1) Add `csrf.CsrfHandler` to the app's filters (it must come after the egret.SessionHandler).
 //  2) Add CSRF fields to a form with the template tag `{{ csrftoken . }}`. The filter adds a function closure to the `RenderArgs` that can pull out the secret and make the token as-needed, caching the value in the request. Ajax support provided through the `X-CSRFToken` header.
-func CsrfHandler(c *eject.Context, fc []eject.Handler) {
+func CsrfHandler(c *egret.Context, fc []egret.Handler) {
 	token, foundToken := c.Session["csrf_token"]
 
 	if !foundToken {
@@ -109,7 +109,7 @@ func sameOrigin(u1, u2 *url.URL) bool {
 }
 
 func init() {
-	eject.SharedTemplateFunc["csrftoken"] = func(renderArgs map[string]interface{}) template.HTML {
+	egret.SharedTemplateFunc["csrftoken"] = func(renderArgs map[string]interface{}) template.HTML {
 		if tokenFunc, ok := renderArgs["_csrftoken"]; !ok {
 			panic("EJECT CSRF: _csrftoken missing from RenderArgs.")
 		} else {

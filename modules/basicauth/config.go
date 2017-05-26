@@ -2,7 +2,7 @@ package basicauth
 
 import (
 	"github.com/imdario/mergo"
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 	"time"
 )
 
@@ -42,6 +42,6 @@ func (c Config) MergeSingle(cfg Config) (config Config) {
 }
 
 // User returns the user from context key same as 'ctx.GetString("user")' but cannot be used by the developer, this is only here in order to understand how you can get the authenticated username
-func (c Config) User(ctx *eject.Context) string {
+func (c Config) User(ctx *egret.Context) string {
 	return ctx.GetString(c.ContextKey)
 }

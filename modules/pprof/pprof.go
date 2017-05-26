@@ -4,24 +4,24 @@ import (
 	"net/http/pprof"
 	"strings"
 
-	"github.com/kataras/eject"
+	"github.com/kataras/egret"
 )
 
 // New returns the pprof (profile, debug usage) Handler/ middleware
 // NOTE: Route MUST have the last named parameter wildcard named '*action'
 // Usage:
-// eject.Get("debug/pprof/*action", pprof.New())
-func New() eject.HandlerFunc {
-	indexHandler := eject.ToHandler(pprof.Index)
-	cmdlineHandler := eject.ToHandler(pprof.Cmdline)
-	profileHandler := eject.ToHandler(pprof.Profile)
-	symbolHandler := eject.ToHandler(pprof.Symbol)
-	goroutineHandler := eject.ToHandler(pprof.Handler("goroutine"))
-	heapHandler := eject.ToHandler(pprof.Handler("heap"))
-	threadcreateHandler := eject.ToHandler(pprof.Handler("threadcreate"))
-	debugBlockHandler := eject.ToHandler(pprof.Handler("block"))
+// egret.Get("debug/pprof/*action", pprof.New())
+func New() egret.HandlerFunc {
+	indexHandler := egret.ToHandler(pprof.Index)
+	cmdlineHandler := egret.ToHandler(pprof.Cmdline)
+	profileHandler := egret.ToHandler(pprof.Profile)
+	symbolHandler := egret.ToHandler(pprof.Symbol)
+	goroutineHandler := egret.ToHandler(pprof.Handler("goroutine"))
+	heapHandler := egret.ToHandler(pprof.Handler("heap"))
+	threadcreateHandler := egret.ToHandler(pprof.Handler("threadcreate"))
+	debugBlockHandler := egret.ToHandler(pprof.Handler("block"))
 
-	return eject.HandlerFunc(func(ctx *eject.Context) {
+	return egret.HandlerFunc(func(ctx *egret.Context) {
 		ctx.SetContentType("text/html; charset=" + ctx.Framework().Config.Charset)
 
 		action := ctx.Param("action")

@@ -1,8 +1,8 @@
 package routes
 
-import "github.com/kenorld/eject-core"
+import "github.com/kenorld/egret-core"
 
-func Profile(ctx *eject.Context) {
+func Profile(ctx *egret.Context) {
 	id := ctx.Param("id")
-	ctx.MustRender("profile.html", eject.Map{"Id": id})
+	ctx.MustRender("profile.html", egret.Map{"Id": id})
 }

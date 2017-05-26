@@ -1,6 +1,6 @@
 // A job runner for executing scheduled or ad-hoc tasks asynchronously from HTTP requests.
 //
-// It adds a couple of features on top of the cron package to make it play nicely with Eject:
+// It adds a couple of features on top of the cron package to make it play nicely with Egret:
 // 1. Protection against job panics.  (They print to ERROR instead of take down the process)
 // 2. (Optional) Limit on the number of jobs that may run simulatenously, to
 //    limit resource consumption.
@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kenorld/eject-core"
-	"github.com/kenorld/eject-cron"
+	"github.com/kenorld/egret-core"
+	"github.com/kenorld/egret-cron"
 )
 
 // Callers can use jobs.Func to wrap a raw func.
@@ -30,10 +30,10 @@ func (r Func) Run() { r() }
 func Schedule(spec string, job cron.Job) error {
 	// Look to see if given spec is a key from the Config.
 	if strings.HasPrefix(spec, "cron.") {
-		if !eject.Config.IsSet(spec) {
+		if !egret.Config.IsSet(spec) {
 			panic("Cron spec not found: " + spec)
 		}
-		spec = eject.Config.GetString(spec)
+		spec = egret.Config.GetString(spec)
 	}
 	sched, err := cron.Parse(spec)
 	if err != nil {

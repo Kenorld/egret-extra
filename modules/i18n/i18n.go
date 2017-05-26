@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Unknwon/i18n"
-	"github.com/kataras/eject"
+	"github.com/kataras/egret"
 )
 
 type i18nMiddleware struct {
@@ -13,7 +13,7 @@ type i18nMiddleware struct {
 }
 
 // Serve serves the request, the actual middleware's job is here
-func (i *i18nMiddleware) Serve(ctx *eject.Context) {
+func (i *i18nMiddleware) Serve(ctx *egret.Context) {
 	wasByCookie := false
 	// try to get by url parameter
 	language := ctx.URLParam(i.config.URLParameter)
@@ -45,7 +45,7 @@ func (i *i18nMiddleware) Serve(ctx *eject.Context) {
 }
 
 // New returns a new i18n middleware
-func New(c Config) eject.HandlerFunc {
+func New(c Config) egret.HandlerFunc {
 	if len(c.Languages) == 0 {
 		panic("You cannot use this middleware without set the Languages option, please try again and read the docs.")
 	}
@@ -74,7 +74,7 @@ func New(c Config) eject.HandlerFunc {
 }
 
 // TranslatedMap returns translated map[string]interface{} from i18n structure
-func TranslatedMap(sourceInterface interface{}, ctx *eject.Context) map[string]interface{} {
+func TranslatedMap(sourceInterface interface{}, ctx *egret.Context) map[string]interface{} {
 	iType := reflect.TypeOf(sourceInterface).Elem()
 	result := make(map[string]interface{})
 

@@ -1,11 +1,11 @@
 package www
 
-import "github.com/kenorld/eject-core"
+import "github.com/kenorld/egret-core"
 
 type home struct {
 }
 
-func (h *home) Index(ctx *eject.Context) {
+func (h *home) Index(ctx *egret.Context) {
 	data := &struct {
 		Title string
 	}{

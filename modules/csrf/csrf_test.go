@@ -8,12 +8,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
-var testHandlers = []eject.Handler{
+var testHandlers = []egret.Handler{
 	CsrfHandler,
-	func(c *eject.Context, fc []eject.Handler) {
+	func(c *egret.Context, fc []egret.Handler) {
 		c.RenderHTML("{{ csrftoken . }}")
 	},
 }
@@ -21,8 +21,8 @@ var testHandlers = []eject.Handler{
 func TestTokenInSession(t *testing.T) {
 	resp := httptest.NewRecorder()
 	getRequest, _ := http.NewRequest("GET", "http://www.example.com/", nil)
-	c := eject.NewContext(eject.NewRequest(getRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(getRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	testHandlers[0](c, testHandlers)
 
@@ -34,8 +34,8 @@ func TestTokenInSession(t *testing.T) {
 func TestPostWithoutToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	testHandlers[0](c, testHandlers)
 
@@ -48,8 +48,8 @@ func TestNoReferrer(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
 
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	RefreshToken(c)
 	token := c.Session["csrf_token"]
@@ -62,7 +62,7 @@ func TestNoReferrer(t *testing.T) {
 	formPostRequest.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
 
 	// and replace the old request
-	c.Request = eject.NewRequest(formPostRequest)
+	c.Request = egret.NewRequest(formPostRequest)
 
 	testHandlers[0](c, testHandlers)
 
@@ -74,9 +74,9 @@ func TestNoReferrer(t *testing.T) {
 func TestRefererHttps(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
 
-	c.Session = make(eject.Session)
+	c.Session = make(egret.Session)
 
 	RefreshToken(c)
 	token := c.Session["csrf_token"]
@@ -90,7 +90,7 @@ func TestRefererHttps(t *testing.T) {
 	formPostRequest.Header.Add("Referer", "http://www.example.com/")
 
 	// and replace the old request
-	c.Request = eject.NewRequest(formPostRequest)
+	c.Request = egret.NewRequest(formPostRequest)
 
 	testHandlers[0](c, testHandlers)
 
@@ -102,9 +102,9 @@ func TestRefererHttps(t *testing.T) {
 func TestHeaderWithToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
 
-	c.Session = make(eject.Session)
+	c.Session = make(egret.Session)
 
 	RefreshToken(c)
 	token := c.Session["csrf_token"]
@@ -115,7 +115,7 @@ func TestHeaderWithToken(t *testing.T) {
 	formPostRequest.Header.Add("Referer", "http://www.example.com/")
 
 	// and replace the old request
-	c.Request = eject.NewRequest(formPostRequest)
+	c.Request = egret.NewRequest(formPostRequest)
 
 	testHandlers[0](c, testHandlers)
 
@@ -127,9 +127,9 @@ func TestHeaderWithToken(t *testing.T) {
 func TestFormPostWithToken(t *testing.T) {
 	resp := httptest.NewRecorder()
 	postRequest, _ := http.NewRequest("POST", "http://www.example.com/", nil)
-	c := eject.NewContext(eject.NewRequest(postRequest), eject.NewResponse(resp))
+	c := egret.NewContext(egret.NewRequest(postRequest), egret.NewResponse(resp))
 
-	c.Session = make(eject.Session)
+	c.Session = make(egret.Session)
 
 	RefreshToken(c)
 	token := c.Session["csrf_token"]
@@ -143,7 +143,7 @@ func TestFormPostWithToken(t *testing.T) {
 	formPostRequest.Header.Add("Referer", "http://www.example.com/")
 
 	// and replace the old request
-	c.Request = eject.NewRequest(formPostRequest)
+	c.Request = egret.NewRequest(formPostRequest)
 
 	testHandlers[0](c, testHandlers)
 
@@ -158,8 +158,8 @@ func TestNoTokenInArgsWhenCORs(t *testing.T) {
 	getRequest, _ := http.NewRequest("GET", "http://www.example1.com/", nil)
 	getRequest.Header.Add("Referer", "http://www.example2.com/")
 
-	c := eject.NewContext(eject.NewRequest(getRequest), eject.NewResponse(resp))
-	c.Session = make(eject.Session)
+	c := egret.NewContext(egret.NewRequest(getRequest), egret.NewResponse(resp))
+	c.Session = make(egret.Session)
 
 	testHandlers[0](c, testHandlers)
 

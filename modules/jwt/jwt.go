@@ -9,19 +9,19 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 // A function called whenever an error is encountered
-type errorHandler func(*eject.Context, string)
-type passedHandler func(*eject.Context, *jwt.Token)
+type errorHandler func(*egret.Context, string)
+type passedHandler func(*egret.Context, *jwt.Token)
 
 // TokenExtractor is a function that takes a context as input and returns
 // either a token or an error.  An error should only be returned if an attempt
 // to specify a token was found, but the information was somehow incorrectly
 // formed.  In the case where a token is simply not present, this should not
 // be treated as an error.  An empty string should be returned in that case.
-type TokenExtractor func(*eject.Context) (string, error)
+type TokenExtractor func(*egret.Context) (string, error)
 
 // Middleware the middleware for JSON Web tokens authentication method
 type Middleware struct {
@@ -30,9 +30,9 @@ type Middleware struct {
 }
 
 // OnError default error handler
-func OnError(ctx *eject.Context, err string) {
+func OnError(ctx *egret.Context, err string) {
 	ctx.SetStatusCode(http.StatusUnauthorized)
-	ctx.Error = &eject.Error{
+	ctx.Error = &egret.Error{
 		Status:      http.StatusUnauthorized,
 		Name:        "UNAUTHORIZED",
 		Title:       "Unauthorized",
@@ -72,13 +72,13 @@ func (m *Middleware) logf(format string, args ...interface{}) {
 }
 
 // Serve the middleware's action
-func (m *Middleware) Serve(ctx *eject.Context) {
+func (m *Middleware) Serve(ctx *egret.Context) {
 	m.CheckJWT(ctx)
 }
 
 // FromAuthHeader is a "TokenExtractor" that takes a give context and extracts
 // the JWT token from the Authorization header.
-func FromAuthHeader(ctx *eject.Context) (string, error) {
+func FromAuthHeader(ctx *egret.Context) (string, error) {
 	authHeader := ctx.Request.Header.Get("Authorization")
 	if authHeader == "" {
 		return "", nil // No error, just no token
@@ -96,7 +96,7 @@ func FromAuthHeader(ctx *eject.Context) (string, error) {
 // FromParameter returns a function that extracts the token from the specified
 // query string parameter
 func FromParameter(param string) TokenExtractor {
-	return func(ctx *eject.Context) (string, error) {
+	return func(ctx *egret.Context) (string, error) {
 		return ctx.Query(param), nil
 	}
 }
@@ -104,7 +104,7 @@ func FromParameter(param string) TokenExtractor {
 // FromFirst returns a function that runs multiple token extractors and takes the
 // first token it finds
 func FromFirst(extractors ...TokenExtractor) TokenExtractor {
-	return func(ctx *eject.Context) (string, error) {
+	return func(ctx *egret.Context) (string, error) {
 		for _, ex := range extractors {
 			token, err := ex(ctx)
 			if err != nil {
@@ -119,7 +119,7 @@ func FromFirst(extractors ...TokenExtractor) TokenExtractor {
 }
 
 // CheckJWT the main functionality, checks for token
-func (m *Middleware) CheckJWT(ctx *eject.Context) error {
+func (m *Middleware) CheckJWT(ctx *egret.Context) error {
 	if !m.Config.EnableAuthOnOptions {
 		if ctx.Request.Method == "OPTIONS" {
 			return nil

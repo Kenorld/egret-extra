@@ -8,7 +8,7 @@ More can be found here:
 ## Install
 
 ```sh
-$ go get -u github.com/eject-contrib/middleware/i18n
+$ go get -u github.com/egret-contrib/middleware/i18n
 ```
 
 ## Description
@@ -39,31 +39,31 @@ hi = ����, %s
 package main
 
 import (
-	"github.com/kenorld/eject-core"
-	"github.com/eject-contrib/middleware/i18n"
+	"github.com/kenorld/egret-core"
+	"github.com/egret-contrib/middleware/i18n"
 )
 
 func main() {
 
-	eject.UseFunc(i18n.New(i18n.Config{Default: "en-US",
+	egret.UseFunc(i18n.New(i18n.Config{Default: "en-US",
 		Languages: map[string]string{
 			"en-US": "./locales/locale_en-US.ini",
 			"el-GR": "./locales/locale_el-GR.ini",
 			"zh-CN": "./locales/locale_zh-CN.ini"}}))
-	// or eject.Use(i18n.I18nHandler(....))
-	// or eject.Get("/",i18n.I18n(....), func (ctx *eject.Context){})
+	// or egret.Use(i18n.I18nHandler(....))
+	// or egret.Get("/",i18n.I18n(....), func (ctx *egret.Context){})
 
-	eject.Get("/", func(ctx *eject.Context) {
+	egret.Get("/", func(ctx *egret.Context) {
 		hi := ctx.GetFmt("translate")("hi", "maki") // hi is the key, 'maki' is the %s, the second parameter is optional
 		language := ctx.Get("language") // language is the language key, example 'en-US'
 
 		ctx.Write("From the language %s translated output: %s", language, hi)
 	})
 
-	eject.Listen(":8080")
+	egret.Listen(":8080")
 
 }
 
 ```
 
-### [For a working example, click here](https://github.com/kenorld/eject-core/tree/examples/middleware_internationalization_i18n)
+### [For a working example, click here](https://github.com/kenorld/egret-core/tree/examples/middleware_internationalization_i18n)

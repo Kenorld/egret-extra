@@ -1,7 +1,7 @@
 // package routes
 
 // import (
-// 	"github.com/kenorld/eject-core"
+// 	"github.com/kenorld/egret-core"
 // 	"gopkg.in/mgo.v2/bson"
 
 // 	"github.com/kenorld/xlh-server-www/core/models"
@@ -12,12 +12,12 @@
 // type AuthAPI struct {
 // }
 
-// func (this AuthAPI) Register(ctx *eject.Context) {
+// func (this AuthAPI) Register(ctx *egret.Context) {
 
 // 	usr := models.User{}
 // 	err := ctx.ReadForm(&usr)
 // 	if err != nil {
-// 		ctx.JSON(eject.StatusOK, models.Err("4"))
+// 		ctx.JSON(egret.StatusOK, models.Err("4"))
 // 		panic(err.Error())
 // 	}
 
@@ -30,19 +30,19 @@
 // 	// Insert
 // 	if err := Db.C("auth").Insert(&usr); err != nil {
 // 		// Is a duplicate key, but we don't know which one
-// 		ctx.JSON(eject.StatusOK, models.Err("5"))
+// 		ctx.JSON(egret.StatusOK, models.Err("5"))
 // 		if Db.IsDup(err) {
-// 			ctx.JSON(eject.StatusOK, models.Err("6"))
+// 			ctx.JSON(egret.StatusOK, models.Err("6"))
 // 		}
 // 	} else {
-// 		ctx.JSON(eject.StatusOK, eject.Map{"response": true})
+// 		ctx.JSON(egret.StatusOK, egret.Map{"response": true})
 // 	}
 
 // 	Db.Close()
 
 // }
 
-// func (this AuthAPI) Login(ctx *eject.Context) {
+// func (this AuthAPI) Login(ctx *egret.Context) {
 
 // 	result := models.User{}
 
@@ -53,7 +53,7 @@
 // 	Db.Init()
 
 // 	if err := Db.C("auth").Find(bson.M{"email": _email}).One(&result); err != nil {
-// 		ctx.JSON(eject.StatusOK, models.Err("1"))
+// 		ctx.JSON(egret.StatusOK, models.Err("1"))
 // 		return
 // 	}
 
@@ -64,16 +64,16 @@
 // 		token := pass.Token()
 // 		ctx.Session().Set("login", "true")
 // 		ctx.Session().Set("token", token)
-// 		ctx.JSON(eject.StatusOK, eject.Map{"response": true, "token": token})
+// 		ctx.JSON(egret.StatusOK, egret.Map{"response": true, "token": token})
 // 	} else {
-// 		ctx.JSON(eject.StatusOK, models.Err("7"))
+// 		ctx.JSON(egret.StatusOK, models.Err("7"))
 // 	}
 
 // 	Db.Close()
 
 // }
 
-// func (this AuthAPI) Check(ctx *eject.Context) {
+// func (this AuthAPI) Check(ctx *egret.Context) {
 
 // 	_pass := string(ctx.FormValue("pass"))
 // 	token := ctx.Session().GetString("token")
@@ -82,22 +82,22 @@
 // 	cp := pass.Compare(token, _pass)
 
 // 	if cp {
-// 		ctx.JSON(eject.StatusOK, eject.Map{"response": true, "token": token})
+// 		ctx.JSON(egret.StatusOK, egret.Map{"response": true, "token": token})
 // 	} else {
-// 		ctx.JSON(eject.StatusOK, models.Err("8"))
+// 		ctx.JSON(egret.StatusOK, models.Err("8"))
 // 	}
 
 // }
 
-// func (this AuthAPI) Session(ctx *eject.Context) {
+// func (this AuthAPI) Session(ctx *egret.Context) {
 
 // 	login := ctx.Session().GetString("login")
 // 	token := ctx.Session().GetString("token")
 
 // 	if login == "true" {
-// 		ctx.JSON(eject.StatusOK, eject.Map{"response": true, "token": token})
+// 		ctx.JSON(egret.StatusOK, egret.Map{"response": true, "token": token})
 // 	} else {
-// 		ctx.JSON(eject.StatusOK, models.Err("8"))
+// 		ctx.JSON(egret.StatusOK, models.Err("8"))
 // 	}
 
 // }

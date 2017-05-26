@@ -6,7 +6,7 @@ import (
 
 	"time"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 type (
@@ -30,16 +30,16 @@ type (
 //
 
 // New takes one parameter, the Config returns a HandlerFunc
-// use: eject.UseFunc(New(...)), eject.Get(...,New(...),...)
-func New(c Config) eject.HandlerFunc {
+// use: egret.UseFunc(New(...)), egret.Get(...,New(...),...)
+func New(c Config) egret.HandlerFunc {
 	b := &basicAuthMiddleware{config: DefaultConfig().MergeSingle(c)}
 	b.init()
 	return b.Serve
 }
 
 // Default takes one parameter, the users returns a HandlerFunc
-// use: eject.UseFunc(Default(...)), eject.Get(...,Default(...),...)
-func Default(users map[string]string) eject.HandlerFunc {
+// use: egret.UseFunc(Default(...)), egret.Get(...,Default(...),...)
+func Default(users map[string]string) egret.HandlerFunc {
 	c := DefaultConfig()
 	c.Users = users
 	return New(c)
@@ -48,7 +48,7 @@ func Default(users map[string]string) eject.HandlerFunc {
 //
 
 // User returns the user from context key same as 'ctx.GetString("user")' but cannot be used by the developer, use the basicauth.Config.User func instead.
-func (b *basicAuthMiddleware) User(ctx *eject.Context) string {
+func (b *basicAuthMiddleware) User(ctx *egret.Context) string {
 	return b.config.User(ctx)
 }
 
@@ -86,13 +86,13 @@ func (b *basicAuthMiddleware) findAuth(headerValue string) (auth *encodedUser, f
 	return
 }
 
-func (b *basicAuthMiddleware) askForCredentials(ctx *eject.Context) {
+func (b *basicAuthMiddleware) askForCredentials(ctx *egret.Context) {
 	ctx.SetHeader("WWW-Authenticate", b.realmHeaderValue)
-	ctx.SetStatusCode(eject.StatusUnauthorized)
+	ctx.SetStatusCode(egret.StatusUnauthorized)
 }
 
 // Serve the actual middleware
-func (b *basicAuthMiddleware) Serve(ctx *eject.Context) {
+func (b *basicAuthMiddleware) Serve(ctx *egret.Context) {
 
 	if auth, found := b.findAuth(ctx.RequestHeader("Authorization")); !found {
 		b.askForCredentials(ctx)

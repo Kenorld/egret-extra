@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 func Register() {
-	router := eject.NewRouter()
-	//	router.Before("*", eject.SharedHandlers...)
+	router := egret.NewRouter()
+	//	router.Before("*", egret.SharedHandlers...)
 	// register index using a 'Handler'
 	//router.Path("/").Get(routes.Index)
-	eject.Static(router.Path("/favicon.ico"), []string{"/public/favicon.ico"}, nil)
+	egret.Static(router.Path("/favicon.ico"), []string{"/public/favicon.ico"}, nil)
 
 	//router.Path("/").Get(Home.Index)
 	root := router.Path("/").Get(Home.Index)
@@ -20,5 +20,5 @@ func Register() {
 	user.Path("trash").Post(User.Trash)
 	user.Path("<id>").Get(User.Show)
 	
-	eject.Static(router.Path("/<*path>"), []string{"/public"}, eject.StaticOptions{"listing": true})
+	egret.Static(router.Path("/<*path>"), []string{"/public"}, egret.StaticOptions{"listing": true})
 }

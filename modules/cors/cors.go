@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 const toLower = 'a' - 'A'
@@ -226,7 +226,7 @@ func (c *Cors) Conflicts() string {
 }
 
 // Serve serves the middleware
-func (c *Cors) Serve(ctx *eject.Context) {
+func (c *Cors) Serve(ctx *egret.Context) {
 	if ctx.Method() == "OPTIONS" {
 		c.logf("Serve: Preflight request")
 		// Check preflight, if any error, http error will raise
@@ -248,7 +248,7 @@ func (c *Cors) Serve(ctx *eject.Context) {
 }
 
 // handlePreflight handles pre-flight CORS requests
-func (c *Cors) handlePreflight(ctx *eject.Context) bool {
+func (c *Cors) handlePreflight(ctx *egret.Context) bool {
 	origin := ctx.RequestHeader("Origin")
 
 	if ctx.Method() != "OPTIONS" {
@@ -306,10 +306,10 @@ func (c *Cors) handlePreflight(ctx *eject.Context) bool {
 }
 
 // handleActualRequest handles simple cross-origin requests, actual request or redirects
-func (c *Cors) handleActualRequest(ctx *eject.Context) {
+func (c *Cors) handleActualRequest(ctx *egret.Context) {
 	origin := ctx.RequestHeader("Origin")
 
-	if ctx.Method() == eject.MethodOptions {
+	if ctx.Method() == egret.MethodOptions {
 		c.logf("  Actual request no headers added: method == %s", ctx.Method())
 		return
 	}
@@ -378,7 +378,7 @@ func (c *Cors) isMethodAllowed(method string) bool {
 		return false
 	}
 	method = strings.ToUpper(method)
-	if method == eject.MethodOptions {
+	if method == egret.MethodOptions {
 		// Always allow preflight requests
 		return true
 	}

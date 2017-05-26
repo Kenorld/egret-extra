@@ -1,8 +1,8 @@
 package jobs
 
 import (
-	"github.com/kenorld/eject-core"
-	"github.com/kenorld/eject-cron"
+	"github.com/kenorld/egret-core"
+	"github.com/kenorld/egret-cron"
 )
 
 const DefaultJobPoolSize = 10
@@ -20,11 +20,11 @@ var (
 
 func init() {
 	MainCron = cron.New()
-	eject.OnAppStart(func() {
-		if size := eject.Config.GetIntDefault("jobs.pool", DefaultJobPoolSize); size > 0 {
+	egret.OnAppStart(func() {
+		if size := egret.Config.GetIntDefault("jobs.pool", DefaultJobPoolSize); size > 0 {
 			workPermits = make(chan struct{}, size)
 		}
-		selfConcurrent = eject.Config.GetBoolDefault("jobs.self_concurrent", false)
+		selfConcurrent = egret.Config.GetBoolDefault("jobs.self_concurrent", false)
 		MainCron.Start()
 	})
 }

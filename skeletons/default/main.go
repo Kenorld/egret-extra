@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 	"github.com/kenorld/xlh-server/core/routes"
 )
 
@@ -16,13 +16,13 @@ var (
 
 func main() {
 	flag.Parse()
-	eject.Init(*runMode, *importPath, *srcPath)
+	egret.Init(*runMode, *importPath, *srcPath)
 	// DB Main
 	//DbMain()
 	routes.Register()
 
 	// start the server
-	eject.Serve(*port)
+	egret.Serve(*port)
 }
 
 // func DbMain() {

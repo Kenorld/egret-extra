@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 var (
@@ -25,7 +25,7 @@ func MarkExempt(route string) {
 	}
 }
 
-func IsExempt(c *eject.Context) bool {
+func IsExempt(c *egret.Context) bool {
 	if _, ok := exemptPath[strings.ToLower(c.Request.Request.URL.Path)]; ok {
 		return true
 	} else if _, ok := exemptAction[c.Action]; ok {

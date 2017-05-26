@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 )
 
 const (
@@ -25,8 +25,8 @@ const (
 	hpkpHeader          = "Public-Key-Pins"
 )
 
-func defaultBadHostHandler(ctx *eject.Context) {
-	ctx.Text(eject.StatusInternalServerError, "Bad Host")
+func defaultBadHostHandler(ctx *egret.Context) {
+	ctx.Text(egret.StatusInternalServerError, "Bad Host")
 }
 
 // Options is a struct for specifying configuration options for the secure.Secure middleware.
@@ -73,7 +73,7 @@ type Secure struct {
 	opt Options
 
 	// Handlers for when an error occurs (ie bad host).
-	badHostHandler eject.Handler
+	badHostHandler egret.Handler
 }
 
 // New constructs a new Secure instance with supplied options.
@@ -87,17 +87,17 @@ func New(options ...Options) *Secure {
 
 	return &Secure{
 		opt:            o,
-		badHostHandler: eject.HandlerFunc(defaultBadHostHandler),
+		badHostHandler: egret.HandlerFunc(defaultBadHostHandler),
 	}
 }
 
-// SetBadHostHandler sets the handler to call when secure rejects the host name.
-func (s *Secure) SetBadHostHandler(handler eject.Handler) {
+// SetBadHostHandler sets the handler to call when secure regrets the host name.
+func (s *Secure) SetBadHostHandler(handler egret.Handler) {
 	s.badHostHandler = handler
 }
 
-// Serve implements the eject.HandlerFunc for integration with eject.
-func (s *Secure) Serve(ctx *eject.Context) {
+// Serve implements the egret.HandlerFunc for integration with egret.
+func (s *Secure) Serve(ctx *egret.Context) {
 	// Let secure process the request. If it returns an error,
 	// that indicates the request should not continue.
 	err := s.Process(ctx)
@@ -111,7 +111,7 @@ func (s *Secure) Serve(ctx *eject.Context) {
 }
 
 // Process runs the actual checks and returns an error if the middleware chain should stop.
-func (s *Secure) Process(ctx *eject.Context) error {
+func (s *Secure) Process(ctx *egret.Context) error {
 	// Allowed hosts check.
 	if len(s.opt.AllowedHosts) > 0 && !s.opt.IsDevelopment {
 		isGoodHost := false
@@ -149,9 +149,9 @@ func (s *Secure) Process(ctx *eject.Context) error {
 			url.Host = s.opt.SSLHost
 		}
 
-		status := eject.StatusMovedPermanently
+		status := egret.StatusMovedPermanently
 		if s.opt.SSLTemporaryRedirect {
-			status = eject.StatusTemporaryRedirect
+			status = egret.StatusTemporaryRedirect
 		}
 
 		ctx.Redirect(url.String(), status)

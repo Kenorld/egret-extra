@@ -11,7 +11,7 @@ Secure is an HTTP middleware for Go that facilitates some quick security wins.
 ## Install
 
 ```sh
-$ go get -u github.com/eject-contrib/middleware/secure
+$ go get -u github.com/egret-contrib/middleware/secure
 ```
 
 ## How to use
@@ -20,8 +20,8 @@ $ go get -u github.com/eject-contrib/middleware/secure
 package main
 
 import (
-	"github.com/kenorld/eject-core"
-	"github.com/eject-contrib/middleware/secure"
+	"github.com/kenorld/egret-core"
+	"github.com/egret-contrib/middleware/secure"
 )
 
 func main() {
@@ -45,13 +45,13 @@ func main() {
 		IsDevelopment: true, // This will cause the AllowedHosts, SSLRedirect, and STSSeconds/STSIncludeSubdomains options to be ignored during development. When deploying to production, be sure to set this to false.
 	})
 
-	eject.Use(s)
+	egret.Use(s)
 
-	eject.Get("/home", func(c *eject.Context) {
+	egret.Get("/home", func(c *egret.Context) {
 		c.Writef("Hello from /home")
 	})
 
-	eject.Listen(":8080")
+	egret.Listen(":8080")
 }
 
 

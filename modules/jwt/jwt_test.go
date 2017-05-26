@@ -4,8 +4,8 @@ package jwt
 import (
 	"testing"
 	"github.com/dgrijalva/jwt-go"
-	jwtmiddleware "github.com/eject-contrib/middleware/jwt"
-	"github.com/kenorld/eject-core"
+	jwtmiddleware "github.com/egret-contrib/middleware/jwt"
+	"github.com/kenorld/egret-core"
 )
 
 type Response struct {
@@ -14,7 +14,7 @@ type Response struct {
 
 func TestBasicJwt(t *testing.T) {
 	var (
-		api             = eject.New()
+		api             = egret.New()
 		myJwtMiddleware = jwtmiddleware.New(jwtmiddleware.Config{
 			ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
 				return []byte("My Secret"), nil
@@ -23,7 +23,7 @@ func TestBasicJwt(t *testing.T) {
 		})
 	)
 
-	securedPingHandler := func(ctx *eject.Context) {
+	securedPingHandler := func(ctx *egret.Context) {
 		userToken := myJwtMiddleware.Get(ctx)
 		var claimTestedValue string
 		if claims, ok := userToken.Claims.(jwt.MapClaims); ok && userToken.Valid {
@@ -36,13 +36,13 @@ func TestBasicJwt(t *testing.T) {
 		// get the *jwt.Token which contains user information using:
 		// user:= myJwtMiddleware.Get(ctx) or context.Get("jwt").(*jwt.Token)
 
-		ctx.JSON(eject.StatusOK, response)
+		ctx.JSON(egret.StatusOK, response)
 	}
 
 	api.Get("/secured/ping", myJwtMiddleware.Serve, securedPingHandler)
 	e := api.Tester(t)
 
-	e.GET("/secured/ping").Expect().Status(eject.StatusUnauthorized)
+	e.GET("/secured/ping").Expect().Status(egret.StatusUnauthorized)
 
 	// Create a new token object, specifying signing method and the claims
 	// you would like it to contain.
@@ -53,6 +53,6 @@ func TestBasicJwt(t *testing.T) {
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, _ := token.SignedString([]byte("My Secret"))
 
-	e.GET("/secured/ping").WithHeader("Authorization", "Bearer "+tokenString).Expect().Status(eject.StatusOK).Body().Contains("Iauthenticated").Contains("bar")
+	e.GET("/secured/ping").WithHeader("Authorization", "Bearer "+tokenString).Expect().Status(egret.StatusOK).Body().Contains("Iauthenticated").Contains("bar")
 
 }

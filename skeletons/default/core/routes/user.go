@@ -1,7 +1,7 @@
 package www
 
 import (
-	"github.com/kenorld/eject-core"
+	"github.com/kenorld/egret-core"
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/kenorld/xlh-server/core/models"
@@ -13,7 +13,7 @@ type (
 )
 
 // GET /users
-func (u *user) List(ctx *eject.Context) {
+func (u *user) List(ctx *egret.Context) {
 	// Db := db.MgoDb{}
 	// Db.Init()
 
@@ -29,7 +29,7 @@ func (u *user) List(ctx *eject.Context) {
 }
 
 // GET /users/:param1
-func (u *user) Show(ctx *eject.Context) {
+func (u *user) Show(ctx *egret.Context) {
 	// Db := db.MgoDb{}
 	// Db.Init()
 
@@ -45,7 +45,7 @@ func (u *user) Show(ctx *eject.Context) {
 }
 
 // PUT /users
-func (u *user) Create(ctx *eject.Context) {
+func (u *user) Create(ctx *egret.Context) {
 	// newUsername := string(ctx.Form("username"))
 	// myDb.InsertUser(newUsername)
 	//println(newUsername + " has been inserted to database")
@@ -63,7 +63,7 @@ func (u *user) Create(ctx *eject.Context) {
 }
 
 // POST /users/:param1
-func (u *user) Update(ctx *eject.Context) {
+func (u *user) Update(ctx *egret.Context) {
 	id := ctx.Param("id")
 	usr := models.User{}
 	err := ctx.Read(&usr)
@@ -90,7 +90,7 @@ func (u *user) Update(ctx *eject.Context) {
 }
 
 // DELETE /users/:param1
-func (u *user) Trash(ctx *eject.Context) {
+func (u *user) Trash(ctx *egret.Context) {
 }
 
 var User = &user{}

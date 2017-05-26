@@ -6,7 +6,7 @@ This folder contains a middleware which enables net/http/pprof.
 ## Install
 
 ```sh
-$ go get -u github.com/eject-contrib/middleware/pprof
+$ go get -u github.com/egret-contrib/middleware/pprof
 ```
 
 ## Usage
@@ -15,19 +15,19 @@ $ go get -u github.com/eject-contrib/middleware/pprof
 package main
 
 import (
-	"github.com/eject-contrib/middleware/pprof"
-	"github.com/kenorld/eject-core"
+	"github.com/egret-contrib/middleware/pprof"
+	"github.com/kenorld/egret-core"
 )
 
 func main() {
   
-	eject.Get("/", func(ctx *eject.Context) {
-		ctx.HTML(eject.StatusOK, "<h1> Please click <a href='/debug/pprof'>here</a>")
+	egret.Get("/", func(ctx *egret.Context) {
+		ctx.HTML(egret.StatusOK, "<h1> Please click <a href='/debug/pprof'>here</a>")
 	})
 
-	eject.Get("/debug/pprof/*action", pprof.New())
+	egret.Get("/debug/pprof/*action", pprof.New())
 
-	eject.Listen(":8080")
+	egret.Listen(":8080")
 }
 
 ```
