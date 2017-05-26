@@ -1,10 +1,10 @@
 package www
 
 import (
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 	"gopkg.in/mgo.v2/bson"
 
-	"bitbucket.org/kenorld/xlh-server/core/models"
+	"github.com/kenorld/xlh-server/core/models"
 )
 
 type (

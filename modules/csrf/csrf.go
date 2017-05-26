@@ -9,7 +9,7 @@ import (
 	"math"
 	"net/url"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 // allowMethods are HTTP methods that do NOT require a token

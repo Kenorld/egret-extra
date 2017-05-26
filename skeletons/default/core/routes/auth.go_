@@ -1,12 +1,12 @@
 // package routes
 
 // import (
-// 	"bitbucket.org/kenorld/eject-core"
+// 	"github.com/kenorld/eject-core"
 // 	"gopkg.in/mgo.v2/bson"
 
-// 	"bitbucket.org/kenorld/xlh-server-www/core/models"
-// 	"bitbucket.org/kenorld/xlh-server-www/libs"
-// 	"bitbucket.org/kenorld/xlh-server-www/libs/db"
+// 	"github.com/kenorld/xlh-server-www/core/models"
+// 	"github.com/kenorld/xlh-server-www/libs"
+// 	"github.com/kenorld/xlh-server-www/libs/db"
 // )
 
 // type AuthAPI struct {

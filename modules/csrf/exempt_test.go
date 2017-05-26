@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 func TestExemptPath(t *testing.T) {

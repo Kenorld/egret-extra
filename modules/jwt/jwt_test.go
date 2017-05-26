@@ -5,7 +5,7 @@ import (
 	"testing"
 	"github.com/dgrijalva/jwt-go"
 	jwtmiddleware "github.com/eject-contrib/middleware/jwt"
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 type Response struct {

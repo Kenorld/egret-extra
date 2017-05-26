@@ -2,7 +2,7 @@ package basicauth
 
 import (
 	"github.com/imdario/mergo"
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 	"time"
 )
 

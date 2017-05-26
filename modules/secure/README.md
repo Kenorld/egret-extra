@@ -20,7 +20,7 @@ $ go get -u github.com/eject-contrib/middleware/secure
 package main
 
 import (
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 	"github.com/eject-contrib/middleware/secure"
 )
 

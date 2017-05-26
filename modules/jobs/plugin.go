@@ -1,8 +1,8 @@
 package jobs
 
 import (
-	"bitbucket.org/kenorld/eject-core"
-	"bitbucket.org/kenorld/eject-cron"
+	"github.com/kenorld/eject-core"
+	"github.com/kenorld/eject-cron"
 )
 
 const DefaultJobPoolSize = 10

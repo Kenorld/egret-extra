@@ -6,8 +6,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"bitbucket.org/kenorld/eject-core"
-	"bitbucket.org/kenorld/eject-cron"
+	"github.com/kenorld/eject-core"
+	"github.com/kenorld/eject-cron"
 	"github.com/Sirupsen/logrus"
 )
 

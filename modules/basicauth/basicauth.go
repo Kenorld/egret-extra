@@ -6,7 +6,7 @@ import (
 
 	"time"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 type (

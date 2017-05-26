@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"bitbucket.org/kenorld/eject-core"
-	"bitbucket.org/kenorld/eject-cron"
+	"github.com/kenorld/eject-core"
+	"github.com/kenorld/eject-cron"
 )
 
 // Callers can use jobs.Func to wrap a raw func.

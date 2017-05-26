@@ -39,7 +39,7 @@ hi = ����, %s
 package main
 
 import (
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 	"github.com/eject-contrib/middleware/i18n"
 )
 
@@ -66,4 +66,4 @@ func main() {
 
 ```
 
-### [For a working example, click here](https://bitbucket.org/kenorld/eject-core/tree/examples/middleware_internationalization_i18n)
+### [For a working example, click here](https://github.com/kenorld/eject-core/tree/examples/middleware_internationalization_i18n)

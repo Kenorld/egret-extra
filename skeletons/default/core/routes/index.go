@@ -1,6 +1,6 @@
 package www
 
-import "bitbucket.org/kenorld/eject-core"
+import "github.com/kenorld/eject-core"
 
 type home struct {
 }

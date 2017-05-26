@@ -1,6 +1,6 @@
 ## Middleware information
 
-This middleware has been converted to work with eject[*](https://github.com/auth0/go-jwt-middleware) as requested [here](https://bitbucket.org/kenorld/eject-core/issues/187)
+This middleware has been converted to work with eject[*](https://github.com/auth0/go-jwt-middleware) as requested [here](https://github.com/kenorld/eject-core/issues/187)
 
 
 ## Description

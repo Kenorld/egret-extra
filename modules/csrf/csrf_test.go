@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"testing"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 var testHandlers = []eject.Handler{

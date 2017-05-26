@@ -1,6 +1,6 @@
 package www
 
-import "bitbucket.org/kenorld/eject-core"
+import "github.com/kenorld/eject-core"
 
 // About the handler func, we don't use struct here
 // this is the simplest method to declare a route

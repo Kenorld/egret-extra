@@ -9,7 +9,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 // A function called whenever an error is encountered

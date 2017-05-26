@@ -1,6 +1,6 @@
 package routes
 
-import "bitbucket.org/kenorld/eject-core"
+import "github.com/kenorld/eject-core"
 
 func Profile(ctx *eject.Context) {
 	id := ctx.Param("id")

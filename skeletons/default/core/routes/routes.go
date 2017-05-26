@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 func Register() {

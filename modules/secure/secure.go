@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 const (

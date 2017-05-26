@@ -16,7 +16,7 @@ package main
 
 import (
 	"github.com/eject-contrib/middleware/pprof"
-	"bitbucket.org/kenorld/eject-core"
+	"github.com/kenorld/eject-core"
 )
 
 func main() {
