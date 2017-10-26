@@ -100,6 +100,13 @@ func FromParameter(param string) TokenExtractor {
 		return ctx.Query(param), nil
 	}
 }
+// CookieParameter returns a function that extracts the token from the specified
+// query string parameter
+func FromCookie(param string) TokenExtractor {
+	return func(ctx *egret.Context) (string, error) {
+		return ctx.GetCookie(param), nil
+	}
+}
 
 // FromFirst returns a function that runs multiple token extractors and takes the
 // first token it finds
