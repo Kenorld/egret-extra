@@ -31,12 +31,11 @@ type Middleware struct {
 
 // OnError default error handler
 func OnError(ctx *egret.Context, err string) {
-	ctx.SetStatusCode(http.StatusUnauthorized)
 	ctx.Error = &egret.Error{
-		Status:      http.StatusUnauthorized,
-		Name:        "UNAUTHORIZED",
+		Status: http.StatusUnauthorized,
+		Name:      "unauthorized",
 		Title:       "Unauthorized",
-		Description: "JWT Unauthorized",
+		Summary: "jwt unauthorized",
 	}
 	ctx.Abort()
 }
