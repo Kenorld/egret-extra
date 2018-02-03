@@ -6,9 +6,9 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/kenorld/egret-core"
 	"github.com/kenorld/egret-cron"
-	"github.com/Sirupsen/logrus"
 )
 
 type Job struct {
