@@ -6,9 +6,10 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/sirupsen/logrus"
 	"github.com/kenorld/egret-core"
+	"github.com/kenorld/egret-core/logging"
 	"github.com/kenorld/egret-cron"
+	"go.uber.org/zap"
 )
 
 type Job struct {
@@ -44,15 +45,9 @@ func (j *Job) Run() {
 	defer func() {
 		if err := recover(); err != nil {
 			if egretError := egret.NewErrorFromPanic(err); egretError != nil {
-				logrus.WithFields(logrus.Fields{
-					"error": err,
-					"stack": egretError.Stack,
-				}).Error("error in job")
+				logging.Logger.Error("error in job", zap.Error(err), zap.String("stack", egretError.Stack))
 			} else {
-				logrus.WithFields(logrus.Fields{
-					"error": err,
-					"stack": string(debug.Stack()),
-				}).Error("error in job")
+				logging.Logger.Error("error in job", zap.Error(err), zap.String("stack", string(debug.Stack())))
 			}
 		}
 	}()
