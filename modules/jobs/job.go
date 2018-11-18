@@ -45,9 +45,9 @@ func (j *Job) Run() {
 	defer func() {
 		if err := recover(); err != nil {
 			if egretError := egret.NewErrorFromPanic(err); egretError != nil {
-				logging.Logger.Error("error in job", zap.Error(err), zap.String("stack", egretError.Stack))
+				logging.Logger.Error("error in job", zap.Any("error", err), zap.String("stack", egretError.Stack))
 			} else {
-				logging.Logger.Error("error in job", zap.Error(err), zap.String("stack", string(debug.Stack())))
+				logging.Logger.Error("error in job", zap.Any("error", err), zap.String("stack", string(debug.Stack())))
 			}
 		}
 	}()
